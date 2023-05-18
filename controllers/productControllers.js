@@ -63,15 +63,24 @@ const getPublishedProduct = async (req, res) => {
 
 // 7 connect one to meny relation product and review
 const getProductReview = async (req,res) =>{
-    const data = await Product.findAll({
-        include:[{
-            model:Review,
-            as: 'review'
-        }],
-        where:{id:2}
-    })
+    try {
+        const data = await Product.findAll({
+          include: [
+            {
+              model: Review,
+              as: 'review',
+              required: false, // เพื่อให้สินค้าที่ไม่มีรีวิวยังถูกดึงมาด้วย
+            },
+          ],
+        });
+    
+        res.status(200).send(data);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
 }
-
+  
 module.exports = {
     addProduct,
     getAllproduct,
@@ -79,5 +88,5 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getPublishedProduct,
-    getProductReview
+    getProductReview,
 }
