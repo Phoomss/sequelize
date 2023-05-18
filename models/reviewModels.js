@@ -1,0 +1,16 @@
+const { DataTypes } = require("sequelize");
+const { sequelize } = require('.')
+
+module.exports = (sequelize, DataTypes) => {
+    const Review = sequelize.define("review", {
+        rating: {
+            type: DataTypes.INTEGER,
+        },
+        descriotion: {
+            type: DataTypes.TEXT
+        },
+    })
+
+    return Review
+
+}
