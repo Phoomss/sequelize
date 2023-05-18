@@ -34,17 +34,26 @@ const getOneproduct = async (req, res) => {
 
 // 4 update product
 const updateProduct = async (req, res) => {
-    let id = req.params.id
-    const product = await Product.updata(req.body, { where: { id: id } })
-    res.status(200).send(product)
-}
+    let id = req.params.id;
+    try {
+        const updatedProduct = await Product.update(req.body, { where: { id: id } });
+        res.status(200).send(updatedProduct);
+    } catch (error) {
+        res.status(500).send("Failed to update product");
+    }
+};
+
 
 // 5 delete product
 const deleteProduct = async (req, res) => {
-    let id = req.params.id
-    await Product.destory({ where: { id: id } })
-    res.status(200).send("Product is deleted successfuly")
-}
+    let id = req.params.id;
+    try {
+        await Product.destroy({ where: { id: id } });
+        res.status(200).send("Product is deleted successfully");
+    } catch (error) {
+        res.status(500).send("Failed to delete product");
+    }
+};
 
 // 6 published product
 const getPublishedProduct = async (req, res) => {

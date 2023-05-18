@@ -14,6 +14,10 @@ app.use(express.json())
 
 app.use(express.urlencoded({ extended: true }))
 
+// router
+const router = require('./routers/productRouters.js')
+app.use('/api/products',router)
+
 // tasting api
 app.get('/', (res, req) => {
     res.json({ message: "hello Form Api" })
