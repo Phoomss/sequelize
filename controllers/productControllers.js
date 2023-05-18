@@ -61,6 +61,17 @@ const getPublishedProduct = async (req, res) => {
     res.status(200).send(product)
 }
 
+// 7 connect one to meny relation product and review
+const getProductReview = async (req,res) =>{
+    const data = await Product.findAll({
+        include:[{
+            model:Review,
+            as: 'review'
+        }],
+        where:{id:2}
+    })
+}
+
 module.exports = {
     addProduct,
     getAllproduct,
@@ -68,4 +79,5 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getPublishedProduct,
+    getProductReview
 }

@@ -40,4 +40,15 @@ db.sequelize.sync({ force: false })
         console.log('yes re-sync donel')
     })
 
+// กำหนดความสัมพันธ์ One-to-Many ของโมเดล "product" กับ "review"
+db.product.hasMany(db.review, {
+    foreignKey: 'product_id',
+    as: 'review'
+});
+
+db.review.belongsTo(db.product, {
+    foreignKey: 'product_id',
+    as: 'product'
+});
+
 module.exports = db

@@ -10,7 +10,7 @@ const addReview = async (req, res) => {
         descriotion: req.body.descriotion,
     }
     try {
-        const review = await Review.create(data)
+        const review = await Review.create(req.body)
         res.status(200).send(review)
     } catch (error) {
         res.status(500).send("Failed to add review");
@@ -18,10 +18,10 @@ const addReview = async (req, res) => {
 }
 
 // 2 get all review
-const getAllreview = async(req, res) => {
+const getAllReview = async (req, res) => {
     try {
-        const review = await Review.findAll({})
-        res.status(200).send(review)
+        const reviews = await Review.findAll({})
+        res.status(200).send(reviews)
     } catch (error) {
         res.status(500).send("Failed to get review");
     }
@@ -29,5 +29,5 @@ const getAllreview = async(req, res) => {
 
 module.exports = {
     addReview,
-    getAllreview,
+    getAllReview
 }

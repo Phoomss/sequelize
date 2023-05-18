@@ -10,8 +10,12 @@ router.get('/getAllproduct', productControllers.getAllproduct)
 router.get('/getPublishedProduct', productControllers.getPublishedProduct)
 
 // review controller
-router.get("/getAllreview",reviewControllers.addReview)
 router.post("/addReview",reviewControllers.addReview)
+router.get("/getAllReview",reviewControllers.getAllReview)
+
+
+// get review product
+router.get("/getProductReview",productControllers.getProductReview)
 
 // product controller
 router.get('/:id', productControllers.getOneproduct)
