@@ -1,0 +1,28 @@
+ooj {
+	name: "nam",
+	phone: 0856,
+	address: "banglen"
+}
+
+arry [
+	name: "nam",
+	phone: 0856,
+	address: "banglen"
+]
+
+json {
+	"name": "nam",
+	"phone": 0856,
+	"address": "banglen"
+}
+
+constructor 
+const products = {
+    productnane: "yamaha"
+}
+
+const {productname:productname} = products
+
+console.log(productname);
+
+destructuring  = แยกส่วนประกอบ

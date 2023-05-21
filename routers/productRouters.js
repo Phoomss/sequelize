@@ -1,25 +1,22 @@
-const productControllers = require('../controllers/productControllers.js')
-const reviewControllers = require('../controllers/reviewControllers.js')
+const productControllers = require("../controllers/productControllers.js");
+const reviewControllers = require("../controllers/reviewControllers.js");
 
 // router
-const router = require('express').Router()
+const router = require("express").Router();
 
-// use controllers
-router.post('/addProduct', productControllers.addProduct)
-router.get('/getAllproduct', productControllers.getAllproduct)
-router.get('/getPublishedProduct', productControllers.getPublishedProduct)
+// Product routes
+router.post("/addProduct", productControllers.addProduct);
+router.get("/getAllProducts", productControllers.getAllProducts);
+router.get("/getPublishedProduct", productControllers.getPublishedProduct);
+router.get("/:id", productControllers.getOneProduct);
+router.put("/:id", productControllers.updateProduct);
+router.delete("/:id", productControllers.deleteProduct);
 
-// review controller
-router.post("/addReview",reviewControllers.addReview)
-router.get("/getAllReview",reviewControllers.getAllReview)
+// Review routes
+router.post("/addReview", reviewControllers.addReview);
+router.get("/getAllReview", reviewControllers.getAllReview);
 
+// Get product reviews
+router.get("/getProductReview", productControllers.getProductReview);
 
-// get review product
-router.get("/getProductReview",productControllers.getProductReview)
-
-// product controller
-router.get('/:id', productControllers.getOneproduct)
-router.put('/:id', productControllers.updateProduct)
-router.delete('/:id', productControllers.deleteProduct)
-
-module.exports = router
+module.exports = router;

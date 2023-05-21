@@ -1,92 +1,101 @@
-const db = require('../models')
+const db = require("../models");
 
 // create main models
-const Product = db.product
-const Review = db.review
+const Product = db.product;
+const Review = db.review;
 
 // main work
-// 1 create product
+// 1 Post Create Product
 const addProduct = async (req, res) => {
-    let info = {
-        title: req.body.title,
-        price: req.body.price,
-        descriotion: req.body.descriotion,
-        published: req.body.published ? req.body.published : false
-    }
+  try {
+    const product = await Product.create(req.body);
+    res.status(200).send(product);
+  } catch (error) {
+    res.status(500).send("Failed to create product");
+  }
+};
 
-    const product = await Product.create(info)
-    res.status(200).send(product)
-    console.log(product)
-}
+// 2 Get All Products
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.findAll({});
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send("Failed to get products");
+  }
+};
 
-// 2 get all product
-const getAllproduct = async (req, res) => {
-    let product = await Product.findAll({})
-    res.status(200).send(product)
-}
+// 3 Get Single Product
+const getOneProduct = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const product = await Product.findOne({ where: { id: id } });
+    res.status(200).send(product);
+  } catch (error) {
+    res.status(500).send("Failed to get product");
+  }
+};
 
-// 3 get single product
-const getOneproduct = async (req, res) => {
-    let id = req.params.id
-    let product = await Product.findOne({ where: { id: id } })
-    res.status(200).send(product)
-}
-
-// 4 update product
+// 4 Update Product
 const updateProduct = async (req, res) => {
-    let id = req.params.id;
-    try {
-        const updatedProduct = await Product.update(req.body, { where: { id: id } });
-        res.status(200).send(updatedProduct);
-    } catch (error) {
-        res.status(500).send("Failed to update product");
-    }
+  try {
+    const id = req.params.id;
+    const updatedProduct = await Product.update(req.body, {
+      where: { id: id },
+    });
+    res.status(200).send(updatedProduct);
+  } catch (error) {
+    res.status(500).send("Failed to update product");
+  }
 };
 
-
-// 5 delete product
+// 5 Delete Product
 const deleteProduct = async (req, res) => {
-    let id = req.params.id;
-    try {
-        await Product.destroy({ where: { id: id } });
-        res.status(200).send("Product is deleted successfully");
-    } catch (error) {
-        res.status(500).send("Failed to delete product");
-    }
+  try {
+    const id = req.params.id;
+    await Product.destroy({ where: { id: id } });
+    res.status(200).send("Product is deleted successfully");
+  } catch (error) {
+    res.status(500).send("Failed to delete product");
+  }
 };
 
-// 6 published product
+// 6 Get published product
 const getPublishedProduct = async (req, res) => {
-    const product = await Product.findAll({ where: { published: true } })
-    res.status(200).send(product)
-}
+  try {
+    const products = await Product.findAll({ where: { published: true } });
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
 
-// 7 connect one to meny relation product and review
-const getProductReview = async (req,res) =>{
-    try {
-        const data = await Product.findAll({
-          include: [
-            {
-              model: Review,
-              as: 'review',
-              required: false, // เพื่อให้สินค้าที่ไม่มีรีวิวยังถูกดึงมาด้วย
-            },
-          ],
-        });
-    
-        res.status(200).send(data);
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
-}
-  
+// 7 Get products with reviews (one-to-many relationship)
+const getProductReview = async (req, res) => {
+  try {
+    const data = await Product.findAll({
+      include: [
+        {
+          model: Review,
+          as: "review",
+          required: false, // เพื่อให้สินค้าที่ไม่มีรีวิวยังถูกดึงมาด้วย
+        },
+      ],
+    });
+
+    res.status(200).send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
-    addProduct,
-    getAllproduct,
-    getOneproduct,
-    updateProduct,
-    deleteProduct,
-    getPublishedProduct,
-    getProductReview,
-}
+  addProduct,
+  getAllProducts,
+  getOneProduct,
+  updateProduct,
+  deleteProduct,
+  getPublishedProduct,
+  getProductReview,
+};
